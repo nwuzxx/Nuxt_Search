@@ -1,0 +1,115 @@
+.body_style{
+	max-width: 1200px;
+	margin: 0 auto;
+}
+/* 鼎那部分 */
+.maintopbox{
+	background:  url(../../assets/img/enter/title-bg.png) no-repeat;
+	width: 100%;
+    padding: 79px 85px 0px 0;
+    position: relative;
+    height: 353px;
+    box-sizing: border-box;
+	display: block;
+}
+.maintopbox::before{
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: "";
+	clear: both;
+	height: 0;
+}
+.maintopbox .ding{
+	width: 330px;
+	height: 377px;
+	background: url(../../assets/img/top_fc.png) no-repeat;
+	position: absolute;
+	top: 25px;
+	left: 53px;
+	display: block;
+}
+.introduce {
+	width: 56%;
+	height: 267px;
+	color: #bd936d;
+	float: right;
+	overflow: hidden;
+	overflow-y: auto;
+}
+.introduce-title{
+	display: flex;
+	font-weight: bold;
+}
+.introduce-title>div:last-child {
+	font-size: 44px;
+}
+.introduce-title>div:last-child span {
+	display: block;
+	line-height: 42px;
+}
+.maintopbox p {
+	clear: both;
+    color: #a2afa4;
+    font-size: 16px;
+    line-height: 22px;
+    border-top: 3px solid #a5343c;
+    border-top-width: 3px;
+    border-top-style: solid;
+    border-top-color: rgb(165, 52, 60);
+    position: relative;
+    padding-top: 18px;
+    margin-top: 30px;
+}
+.maintopbox p:before {
+    content: "";
+    width: 22px;
+    height: 21px;
+    background: url(../../assets/img/enter/title-icon_05.png) no-repeat;
+    position: absolute;
+    top: -3px;
+    right: -1px;
+}
+/* 鼎结束 */
+
+/* 功能开始 */
+.content-box{
+	background: #f8f4ee;
+    padding: 78px 30px 30px 20px;
+}
+.content-box h2 {
+    text-align: center;
+    font-size: 30px;
+    color: #333;
+}
+.content-box h2 span:before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 21px;
+    margin: 0 20px;
+    background: url(../../assets/img/enter/title-icon_03.png) no-repeat;
+}
+
+.content-box h2 span:after {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    margin: 0 20px;
+    height: 21px;
+    background: url(../../assets/img/enter/title-icon_05.png) no-repeat;
+}
+
+.content-box p{
+	margin: 40px auto 20px;
+    color: #bd936d;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+/* 仓单管理el-card */
+.warehouse_boxcard{
+    width: 100%;
+    margin: 30px auto 0px;
+    height: 100%;
+}
