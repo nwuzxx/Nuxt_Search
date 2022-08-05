@@ -37,6 +37,7 @@
 .txtOf{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hLh20{height:20px;line-height:20px}.hLh30{height:30px;line-height:30px}
 .col-7{width:70%}.col-3{width:30%}
+.col-6{width:65%}.col-4{width:35%}
 .lt-ie9 .col-7,.lt-ie9.lt-ie8 .col-7{width:75%}
 .lt-ie9 .col-3,.lt-ie9.lt-ie8 .col-3{width:25%}
 .container{margin-left:auto;margin-right:auto;width:auto}

@@ -2,17 +2,12 @@
   <div id="imageList">
     <!--搜索表单-->
     <section class="container">
-      <!-- <header class="comm-title">
-        <h2 class="tac">
-          <span class="c-333"></span>
-        </h2>
-      </header> -->
-      
       <div style="padding:30px;">
         <el-form ref="searchObj" :inline="true" :model="searchObj" class="demo-form-inline">
+        
         <el-form-item prop="belongMuseum" label="所属场馆">
             <!-- <el-input v-model="searchObj.belongMuseum" placeholder="所属场馆" /> -->
-            <el-select v-model="searchObj.belongMuseum" label="所属场馆" placeholder="请选择">
+            <el-select v-model="searchObj.belongMuseum" @change="getList(searchObj.belongMuseum)" label="所属场馆" placeholder="请选择">
                 <el-option
                     v-for="item in MuseumOptions"
                     :key="item.MuseumName"
@@ -21,11 +16,10 @@
                 </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item prop="collectionName" label="藏品名称">
+        <el-form-item prop="collectionName" label="藏品名称"  >
             <el-input v-model="searchObj.collectionName" placeholder="藏品名称" />
         </el-form-item>
-        <el-form-item prop="collectionLevel" label="藏品级别">
-            <!-- <el-input v-model="searchObj.collectionLevel" placeholder="藏品级别" /> -->
+        <el-form-item prop="collectionLevel" label="藏品级别" v-if="MuseumName=='中国国家博物馆'">
             <el-select v-model="searchObj.collectionLevel" placeholder="请选择">
                 <el-option 
                     v-for="item in LevelOptions"
@@ -35,7 +29,7 @@
                 </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item prop="collectionDynasty" label="藏品年代">
+        <el-form-item prop="collectionDynasty" label="藏品年代" >
             <el-select v-model="searchObj.collectionDynasty" placeholder="请选择">
                 <el-option
                     v-for="item in DynastyOptions"
@@ -45,48 +39,70 @@
                 </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item prop="collectionMaterial" label="藏品材质">
+        <el-form-item prop="collectionDynastyDetail" label="具体年代" v-if="MuseumName=='中国国家博物馆'">
+            <el-input v-model="searchObj.collectionDynastyDetail" placeholder="具体年代" />
+        </el-form-item>
+        <el-form-item prop="collectionMaterial" label="藏品材质" >
             <el-input v-model="searchObj.collectionMaterial" placeholder="藏品材质" />
         </el-form-item>
         <el-form-item prop="collectionType" label="藏品类型">
-            <el-input v-model="searchObj.collectionType" placeholder="藏品类型" />
+            <el-select v-model="searchObj.collectionType" placeholder="请选择">
+                <el-option 
+                    v-for="item in TypeOptions"
+                    :key="item.chnType"
+                    :label="item.chnType" 
+                    :value="item.chnType">
+                </el-option>
+            </el-select>
         </el-form-item>
-
-        
-        <!-- <el-form-item prop="paper_date" label="发表时间">
-            <el-date-picker
-            v-model="searchObj.paper_date"
-            type="daterange"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            />
-        </el-form-item> -->
+        <el-form-item prop="collectionCompleteness" label="完整状态" v-if="MuseumName=='中国国家博物馆'">
+            <el-input v-model="searchObj.collectionCompleteness" placeholder="完整状态" />
+        </el-form-item>
+        <el-form-item prop="collectionSize" label="藏品尺寸" v-if="MuseumName=='中国国家博物馆'">
+            <el-input v-model="searchObj.collectionSize" placeholder="藏品尺寸" />
+        </el-form-item>
+        <el-form-item prop="collectionSource" label="藏品来源" v-if="MuseumName=='中国国家博物馆'">
+            <el-input v-model="searchObj.collectionSource" placeholder="藏品来源" />
+        </el-form-item>
+        <el-form-item prop="collectionWeight" label="重量范围" v-if="MuseumName=='中国国家博物馆'">
+            <el-input v-model="searchObj.collectionWeight" placeholder="重量范围" />
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
             <el-button type="warning" @click="resetForm('searchObj')">重置</el-button>
         </el-form-item>
-        <!-- <el-form-item>
-            <el-button type="success" icon="el-icon-circle-plus-outline" @click="addImage">新增</el-button>
-        </el-form-item> -->
     </el-form>
         
         <article class="comm-course-list">
           <ul  class="of" id="bna">
-            <li v-for="data in list" :key="data.id">
+            <li style="float:left" v-for="data in list" :key="data.id">
               <div class="cc-l-wrap">
                 <section class="course-img">
                   <img
-                    :src="imgUrl + data.id + '_' + data.collectionName + '_1.jpg'"
+                    v-if="MuseumName =='中国国家博物馆'"
+                    :src="imgUrl + data.id + '_' + data.collectionName + '_1.jpg'" 
                     class="img-responsive"
-                    :alt="data.collectionName">
-                  <div class="cc-mask">
-                    <a :href="'/course/'+data.id" title="查看详情" class="comm-btn c-btn-1">查看详情</a>
+                    :alt="data.collectionName"
+                    >
+                  <el-image
+                    v-if="MuseumName =='故宫博物院'"
+                    style="width: 150px; height: 150px%;"
+                    :src="imgUrl + data.id + '.png'"
+                    class="img-responsive"
+                    :alt="data.collectionName"
+                    :fit="contain" 
+                    ></el-image>
+                  <div class="cc-mask" v-if="MuseumName =='中国国家博物馆'">
+                    <a :href="'/search_image/'+data.id" title="查看详情" class="comm-btn c-btn-1">查看详情</a>
                   </div>
-                  <h3 class="hLh30 txtOf mt10">
-                    <a href="#" :title="data.collectionName" class="course-title fsize18 c-333">{{data.collectionName}}</a>
-
+                  <h3 class="hLh30 txtOf mt10" v-if="MuseumName =='中国国家博物馆'">
+                    <a :href="'/search_image/' + data.id" :title="data.collectionName" class="course-title fsize14 c-333">{{data.collectionName}}</a>
+                  </h3>
+                  <div class="cc-mask" v-if="MuseumName =='故宫博物院'">
+                    <a :href="'/search_image/'+data.id" title="查看详情" class="comm-btn c-btn-1">查看详情</a>
+                  </div>
+                  <h3 class="hLh30 txtOf mt10" v-if="MuseumName =='故宫博物院'">
+                    <a :href="'/search_image/' + data.id" :title="data.collectionName" class="course-title fsize14 c-333">{{data.collectionName}}</a>
                   </h3>
 
                 </section>
@@ -131,7 +147,9 @@ export default {
         imgSrc: '',
         fcurrent: 1, // 当前页
         limit: 10, // 每页显示期刊数
-        searchObj: {}, // 条件封装对象
+        searchObj: {
+          belongMuseum: '中国国家博物馆'
+        }, // 条件封装对象
         list: [], // 每页数据集合
         appList: [],
         total: 0, // 总期刊数
@@ -139,14 +157,14 @@ export default {
             Dynasty: '新石器时代',
             label: '新石器时代'
         }, {
-            Dynasty: '夏',
-            label: '夏'
+            Dynasty: '夏朝',
+            label: '夏朝'
         }, {
-            Dynasty: '商',
-            label: '商'
+            Dynasty: '商朝',
+            label: '商朝'
         }, {
-            Dynasty: '周',
-            label: '周'
+            Dynasty: '周朝',
+            label: '周朝'
         }, {
             Dynasty: '春秋',
             label: '春秋'
@@ -218,52 +236,85 @@ export default {
             MuseumName: '中国国家博物馆',
             label: '中国国家博物馆'
         }, {
-            MuseumName: '大英博物馆',
-            label: '大英博物馆'
-        }, {
             MuseumName: '故宫博物院',
             label: '故宫博物院'
-        }],
-        MuseumName: '',
+        },
+        // {
+        //     MuseumName: '大英博物馆',
+        //     label: '大英博物馆'
+        // },
+        ],
+        MuseumName: '中国国家博物馆',
         TypeOptions:[{
-            
-        }]
+        }],
+        relicsType:'',
+
             
 
     };
   },
   created() {
+    this.gitRelicsType();
     this.getList();
     //this.getListAll();
+    
   },
   
   methods: {
-    //文物图像数据
-    async getList(page = 1){
+    //文物图像列表数据
+    async getList(MumName = '中国国家博物馆', page = 1){
+        this.MuseumName = MumName
+        // this.searchObj.belongMuseum = MumName
         this.current = page
-        const {data:res} = await axios
-        .request({
+        if(this.MuseumName == "中国国家博物馆"){
+          const {data:res} = await axios
+          .request({
             url:'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/pageConditionFind/' + this.current + '/' + this.limit,
-            
-            // url: 'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/pageFind/'+ this.current + '/' + this.limit,
             method: 'post',
             data: this.searchObj
+          })
+          console.log(res)
+          if(res.code!=20000) return this.$message.error(res.$message);
+          this.list = res.data.rows;
+          this.total = res.data.total;
+          this.imgSrc = this.imgUrl + res.data.id + '_' + res.data.rows.collectionName + '_1.jpg'
+          console.log(this.imgSrc)
+        }
+        else if(this.MuseumName == "故宫博物院"){
+          const {data:res} = await axios
+          .request({
+            url:'http://localhost:8082/PalaceMuseumManagement/getCollectionInfo/pageConditionFind/' + this.current + '/' + this.limit,
+            method: 'post',
+            data: this.searchObj
+          })
+          console.log(res)
+          if(res.code!=20000) return this.$message.error(res.$message);
+          this.list = res.data.rows;
+          this.total = res.data.total;
+          this.imgSrc = this.imgUrl + res.data.rows.id  + '.jpg'
+          console.log(this.imgSrc)
+        }
+        
+    },
+    // 获取文物类型
+    async gitRelicsType(){
+       const {data:res} = await axios
+        .request({
+            url:'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/findAllType',
+            method: 'get',
         })
         console.log(res)
         if(res.code!=20000) return this.$message.error(res.$message);
-        this.list = res.data.rows;
-        this.total = res.data.total;
-        // var a = res.data.rows.collectionName.indexOf("_1");
-        // if(a == -1){
-        //   this.imgSrc = res.data.id + '_' + res.data.collectionName + '.jpg'
-        // }else{
-        //   this.imgSrc = res.data.id + '_' + res.data.collectionName + '_1.jpg'
-        // }
-
-        console.log(this.imgSrc)
+        this.TypeOptions = res.data.items;
+        this.TypeOptions.reverse();
     },
 
-     async getListAll(){
+    getMum(MuseumName){
+      this.MuseumName = MuseumName
+    },
+    // 获取所有文物信息
+    async getListAll(){
+
       const {data:res} = await axios
       .request({
         url:'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/findAll',
@@ -274,16 +325,12 @@ export default {
       this.appList = res.data.items;
       console.log(this.appList)
     },
-    //重置
+    //搜索条件重置
     resetForm(formName) {
         this.$refs[formName].resetFields()
         this.getList()
     },
 
-    //判断图片数量
-    imgNumber(){
-      
-    }
   },
 }
 </script>

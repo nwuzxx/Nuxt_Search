@@ -19,5 +19,12 @@ export default {
         })
 
      
-    }
+    },
+
+    getImgId(img_id){
+        return request({
+            url:'/CollectionInformationManagement/getCollectionInfo/GetCollection/'+ img_id,
+            method:'get',
+        })
+    },
 }

@@ -14,8 +14,9 @@
   },
   "dependencies": {
     "@babel/compat-data": "^7.13.12",
+    "all": "^0.0.0",
     "axios": "^0.21.1",
-    "element-ui": "2.13.2",
+    "element-ui": "2.15.7",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
     "nuxt": "^2.0.0",
@@ -33,10 +34,10 @@
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1"
   },
-  "config" :{
-    "nuxt":{
-      "host" : "127.0.0.1",
-      "port" : "3010"
+  "config": {
+    "nuxt": {
+      "host": "127.0.0.1",
+      "port": "3010"
     }
   }
 }
