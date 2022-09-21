@@ -3,12 +3,18 @@
     <!-- /藏品详情 开始 -->
     <section class="container">
       <section class="path-wrap txtOf hLh30">
-        <a href="#" title class="c-999 fsize14">首页</a>
+        <!-- <a href="#" title class="c-999 fsize14">首页</a>
         \
         <a href="#" title class="c-999 fsize14">文物列表</a>
         \
-        <span class="c-999 fsize14">藏品详情</span>
+        <span class="c-999 fsize14">藏品详情</span> -->
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/search_image' }">文物列表</el-breadcrumb-item>
+        <el-breadcrumb-item >藏品详情</el-breadcrumb-item>
+      </el-breadcrumb>
       </section>
+      
       <!-- /藏品介绍 -->
       <div class="mt20 c-infor-box">
         <article class="fl col-6">
@@ -40,49 +46,15 @@
                         <el-descriptions-item label-class-name="des-ziti" label="保存状态">{{imgInfo.saveStatus}}</el-descriptions-item>
                         <el-descriptions-item label-class-name="des-ziti" label="所属场馆">{{imgInfo.belongMuseum}}</el-descriptions-item>
                         <el-descriptions-item label-class-name="des-ziti" label="藏品描述">{{imgInfo.collectionDetail}}</el-descriptions-item>
-                        <!-- <el-descriptions-item label="备注">
-                        <el-tag size="small">学校</el-tag>
-                        </el-descriptions-item> -->
                     </el-descriptions>
                     </section>
                   </div>
                 </div>
-                <!-- /课程介绍 -->
                 <div class="mt50">
                   <h6 class="c-g-content c-infor-title">
                     <span>相关推荐</span>
                   </h6>
-                  <!-- <section class="mt20">
-                    <div class="lh-menu-wrap">
-                      <menu id="lh-menu" class="lh-menu mt10 mr10">
-                        <ul>
-                          
-                          <li class="lh-menu-stair">
-                            <a href="javascript: void(0)" title="第一章" class="current-1">
-                              <em class="lh-menu-i-1 icon18 mr10"></em>第一章
-                            </a>
-                            <ol class="lh-menu-ol" style="display: block;">
-                              <li class="lh-menu-second ml30">
-                                <a href="#" title>
-                                  <span class="fr">
-                                    <i class="free-icon vam mr10">免费试听</i>
-                                  </span>
-                                  <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>第一节
-                                </a>
-                              </li>
-                              <li class="lh-menu-second ml30">
-                                <a href="#" title class="current-2">
-                                  <em class="lh-menu-i-2 icon16 mr5">&nbsp;</em>第二节
-                                </a>
-                              </li>
-                            </ol>
-                          </li>
-                        </ul>
-                      </menu>
-                    </div>
-                  </section> -->
                 </div>
-                <!-- /课程大纲 -->
               </article>
             </div>
           </section>
@@ -113,24 +85,24 @@
                 <section class="course-img" >
                     <ul class="of" id="bna">
                         <li  style="float:left"  v-for="i in count"  :key="i">
-                        <div class="cc-l-wrap">
+                        <div >
                             <section >
-                            <!-- <img
+                            <img
+                                style="width: 150px; height: 150px; margin: 5px 5px 5px 5px;"   
                                 :src="imgUrl + imgInfo.id + '_' + imgInfo.collectionName + '_' + i + '.jpg'"
                                 class="img-responsive"
                                 :alt="imgInfo.collectionName"
-                                :preview-src-list="imgUrl + imgInfo.id + '_' + imgInfo.collectionName + '_' + i + '.jpg'"
-                                > -->
-                                <div class="demo-image__preview">
+                                >
+                                <!-- <div class="demo-image__preview">
                                     <el-image 
-                                    
                                     style="width: 150px; height: 150px; margin: 5px 5px 0px 5px;"
                                     :alt="imgInfo.collectionName"
                                     :src=imgSrcList[i-1]
-                                    :preview-src-list="[imgSrcList[i-1]]">
+                                    :preview-src-list=[imgSrcList[i-1]] 
+                                    >
                                     </el-image>
                                 </div>
-                                
+                                 -->
                             </section>
                         </div>
                         </li>
@@ -143,7 +115,7 @@
         <div class="clear"></div>
       </div>
     </section>
-    <!-- /课程详情 结束 -->
+    <!-- 文物详情 结束 -->
   </div>
   
 </template>
@@ -276,40 +248,13 @@ export default {
     };
   },
   created() {
-    // this.getList();
-    // //this.getListAll();
     if(this.$route.params.id){
         const id =  this.$route.params.id
         this.getImgInform(id)
       }
   },
-  
+
   methods: {
-    //文物图像数据
-    async getList(page = 1){
-        this.current = page
-        const {data:res} = await axios
-        .request({
-            url:'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/pageConditionFind/' + this.current + '/' + this.limit,
-            
-            // url: 'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/pageFind/'+ this.current + '/' + this.limit,
-            method: 'post',
-            data: this.searchObj
-        })
-        console.log(res)
-        if(res.code!=20000) return this.$message.error(res.$message);
-        this.list = res.data.rows;
-        this.total = res.data.total;
-        // var a = res.data.rows.collectionName.indexOf("_1");
-        // if(a == -1){
-        //   this.imgSrc = res.data.id + '_' + res.data.collectionName + '.jpg'
-        // }else{
-        //   this.imgSrc = res.data.id + '_' + res.data.collectionName + '_1.jpg'
-        // }
-
-        console.log(this.imgSrc)
-    },
-
     async getImgInform(img_id){
         // imgsearch.getImgId(img_id) 
         //   .then(response => {
@@ -333,28 +278,6 @@ export default {
         }
         console.log(this.imgSrcList)
     },
-
-    //  async getListAll(){
-    //   const {data:res} = await axios
-    //   .request({
-    //     url:'http://localhost:8082/CollectionInformationManagement/getCollectionInfo/findAll',
-    //     methods:'get',
-    //   });
-    //   console.log(res);
-    //   if(res.code!=20000) return this.$message.error(res.$message);
-    //   this.appList = res.data.items;
-    //   console.log(this.appList)
-    // },
-    //重置
-    resetForm(formName) {
-        this.$refs[formName].resetFields()
-        this.getList()
-    },
-
-    //判断图片数量
-    imgNumber(){
-      
-    }
   },
 }
 </script>
@@ -382,5 +305,25 @@ element.style{
     height: 100%;
     position: relative;
     transition-property: transform;
+}
+
+.risk_boxcard1 {
+  width: 100%;
+  margin: 30px auto;
+  height: 100%;
+}
+.formstyle .el-form {
+  margin-top: 30px;
+  margin: 50px auto;
+  width: 70%;
+}
+.formstyle .button_styles {
+  float: right;
+}
+
+.risk_boxcard2 {
+  width: 100%;
+  margin: 30px auto;
+  height: 100%;
 }
 </style>

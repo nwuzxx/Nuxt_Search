@@ -7,7 +7,7 @@
         
         <el-form-item prop="belongMuseum" label="所属场馆">
             <!-- <el-input v-model="searchObj.belongMuseum" placeholder="所属场馆" /> -->
-            <el-select v-model="searchObj.belongMuseum" @change="getList(searchObj.belongMuseum)" label="所属场馆" placeholder="请选择">
+            <el-select v-model="searchObj.belongMuseum" @change="getList()" label="所属场馆" placeholder="请选择">
                 <el-option
                     v-for="item in MuseumOptions"
                     :key="item.MuseumName"
@@ -92,15 +92,15 @@
                     :alt="data.collectionName"
                     :fit="contain" 
                     ></el-image>
-                  <div class="cc-mask" v-if="MuseumName =='中国国家博物馆'">
+                  <!-- <div class="cc-mask" v-if="MuseumName =='中国国家博物馆'">
                     <a :href="'/search_image/'+data.id" title="查看详情" class="comm-btn c-btn-1">查看详情</a>
-                  </div>
+                  </div> -->
                   <h3 class="hLh30 txtOf mt10" v-if="MuseumName =='中国国家博物馆'">
                     <a :href="'/search_image/' + data.id" :title="data.collectionName" class="course-title fsize14 c-333">{{data.collectionName}}</a>
                   </h3>
-                  <div class="cc-mask" v-if="MuseumName =='故宫博物院'">
+                  <!-- <div class="cc-mask" v-if="MuseumName =='故宫博物院'">
                     <a :href="'/search_image/'+data.id" title="查看详情" class="comm-btn c-btn-1">查看详情</a>
-                  </div>
+                  </div> -->
                   <h3 class="hLh30 txtOf mt10" v-if="MuseumName =='故宫博物院'">
                     <a :href="'/search_image/' + data.id" :title="data.collectionName" class="course-title fsize14 c-333">{{data.collectionName}}</a>
                   </h3>
@@ -120,6 +120,7 @@
       layout="total, prev, pager, next, jumper"
       @current-change="getList"
     />
+
     </section>
   </div>
 </template>
@@ -145,14 +146,14 @@ export default {
         id:'',
         imgUrl:'http://localhost:8086/',
         imgSrc: '',
-        fcurrent: 1, // 当前页
-        limit: 10, // 每页显示期刊数
+        current: 1, // 当前页
+        limit: 10, // 每页显示文物数
         searchObj: {
           belongMuseum: '中国国家博物馆'
         }, // 条件封装对象
         list: [], // 每页数据集合
         appList: [],
-        total: 0, // 总期刊数
+        total: 0, // 文物总数
         DynastyOptions: [{
             Dynasty: '新石器时代',
             label: '新石器时代'
@@ -244,7 +245,7 @@ export default {
         //     label: '大英博物馆'
         // },
         ],
-        MuseumName: '中国国家博物馆',
+        MuseumName: '',
         TypeOptions:[{
         }],
         relicsType:'',
@@ -262,9 +263,8 @@ export default {
   
   methods: {
     //文物图像列表数据
-    async getList(MumName = '中国国家博物馆', page = 1){
-        this.MuseumName = MumName
-        // this.searchObj.belongMuseum = MumName
+    async getList(page = 1){
+        this.MuseumName = this.searchObj.belongMuseum
         this.current = page
         if(this.MuseumName == "中国国家博物馆"){
           const {data:res} = await axios
@@ -309,9 +309,6 @@ export default {
         this.TypeOptions.reverse();
     },
 
-    getMum(MuseumName){
-      this.MuseumName = MuseumName
-    },
     // 获取所有文物信息
     async getListAll(){
 
@@ -325,6 +322,7 @@ export default {
       this.appList = res.data.items;
       console.log(this.appList)
     },
+
     //搜索条件重置
     resetForm(formName) {
         this.$refs[formName].resetFields()
